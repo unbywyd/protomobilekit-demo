@@ -42,7 +42,6 @@ import {
   Badge,
   Chip,
   Tabs,
-  Accordion,
   AccordionGroup,
   AccordionItem,
   Carousel,
@@ -340,11 +339,11 @@ function InputsScreen() {
       <ScrollView padding="md">
         <Section title="Input">
           <div className="space-y-3">
-            <Input label="Default" value={text} onChange={setText} placeholder="Enter text..." />
+            <Input label="Default" value={text} onChange={(e) => setText(e.target.value)} placeholder="Enter text..." />
             <Input label="With Helper" value="" onChange={() => {}} helper="This is helper text" />
             <Input label="With Error" value="" onChange={() => {}} error="This field is required" />
             <Input label="Disabled" value="Disabled input" onChange={() => {}} disabled />
-            <Input label="Password" type="password" value={text} onChange={setText} placeholder="Password" />
+            <Input label="Password" type="password" value={text} onChange={(e) => setText(e.target.value)} placeholder="Password" />
           </div>
         </Section>
 
@@ -352,7 +351,7 @@ function InputsScreen() {
           <TextArea
             label="Description"
             value={textarea}
-            onChange={setTextarea}
+            onChange={(e) => setTextarea(e.target.value)}
             placeholder="Enter description..."
             rows={4}
           />
@@ -380,7 +379,7 @@ function InputsScreen() {
           <SearchableSelect
             label="Search & Select"
             value={searchable}
-            onChange={setSearchable}
+            onChange={(v) => setSearchable(v as string)}
             options={searchableOptions}
             placeholder="Type to search..."
           />
@@ -390,7 +389,7 @@ function InputsScreen() {
           <Autocomplete
             label="Autocomplete"
             value={autocomplete}
-            onChange={setAutocomplete}
+            onChange={(v) => setAutocomplete(v as string)}
             options={searchableOptions}
             placeholder="Start typing..."
           />
@@ -437,10 +436,10 @@ function ControlsScreen() {
             <ListItem right={<Switch checked={switchValue} onChange={setSwitchValue} />}>
               Toggle Switch
             </ListItem>
-            <ListItem right={<Switch checked disabled />}>
+            <ListItem right={<Switch checked disabled onChange={() => {}} />}>
               Disabled On
             </ListItem>
-            <ListItem right={<Switch checked={false} disabled />}>
+            <ListItem right={<Switch checked={false} disabled onChange={() => {}} />}>
               Disabled Off
             </ListItem>
           </Card>
@@ -459,7 +458,7 @@ function ControlsScreen() {
               Checked item
             </ListItem>
             <ListItem
-              left={<Checkbox checked disabled />}
+              left={<Checkbox checked disabled onChange={() => {}} />}
             >
               Disabled checked
             </ListItem>
@@ -584,7 +583,7 @@ function DataScreen() {
           <div className="flex flex-wrap gap-2">
             <Chip>Basic</Chip>
             <Chip selected>Selected</Chip>
-            <Chip onRemove={() => {}}>Removable</Chip>
+            <Chip dismissible onDismiss={() => {}}>Removable</Chip>
             <Chip icon={<Tag size={14} />}>With Icon</Chip>
           </div>
         </Section>
@@ -713,10 +712,9 @@ function MenusScreen() {
           <DropdownMenu
             trigger={<Button>Open Dropdown</Button>}
             items={[
-              { label: 'Edit', icon: <Pencil size={18} />, onClick: () => {} },
-              { label: 'Duplicate', icon: <Copy size={18} />, onClick: () => {} },
-              { type: 'divider' },
-              { label: 'Delete', icon: <Trash2 size={18} />, destructive: true, onClick: () => {} },
+              { label: 'Edit', icon: <Pencil size={18} />, onPress: () => {} },
+              { label: 'Duplicate', icon: <Copy size={18} />, onPress: () => {} },
+              { label: 'Delete', icon: <Trash2 size={18} />, destructive: true, onPress: () => {} },
             ]}
           />
         </Section>
@@ -811,9 +809,9 @@ function OverlaysScreen() {
             onClose={() => setActionSheet(false)}
             title="Choose Action"
             options={[
-              { label: 'Take Photo', onClick: () => setActionSheet(false) },
-              { label: 'Choose from Library', onClick: () => setActionSheet(false) },
-              { label: 'Delete', destructive: true, onClick: () => setActionSheet(false) },
+              { label: 'Take Photo', onPress: () => setActionSheet(false) },
+              { label: 'Choose from Library', onPress: () => setActionSheet(false) },
+              { label: 'Delete', destructive: true, onPress: () => setActionSheet(false) },
             ]}
           />
         </Section>
@@ -1036,10 +1034,10 @@ function FormsScreen() {
         <Section title="Form with FormField">
           <Form form={form}>
             <FormSection title="Personal Info">
-              <FormField name="name" label="Full Name" required>
+              <FormField name="name" label="Full Name">
                 <Input placeholder="Enter your name" />
               </FormField>
-              <FormField name="email" label="Email" required>
+              <FormField name="email" label="Email">
                 <Input type="email" placeholder="Enter your email" />
               </FormField>
             </FormSection>
@@ -1061,7 +1059,6 @@ function FormsScreen() {
 
         <Section title="PhoneInput">
           <PhoneInput
-            label="Phone Number"
             value={phone}
             onChange={setPhone}
             defaultCountry="RU"
@@ -1073,7 +1070,6 @@ function FormsScreen() {
 
         <Section title="OTPInput">
           <OTPInput
-            label="Enter OTP"
             value={otp}
             onChange={setOtp}
             length={6}
@@ -1085,7 +1081,6 @@ function FormsScreen() {
 
         <Section title="PinInput">
           <PinInput
-            label="Enter PIN"
             value={pin}
             onChange={setPin}
             length={4}
