@@ -47,8 +47,8 @@ function App() {
         showLabels
       />
 
-      {/* DevTools in corner */}
-      <DevTools position="right" />
+      {/* DevTools in corner - always show since this is a prototyping tool */}
+      <DevTools position="right" devOnly={false} />
     </ThemeProvider>
   )
 }
